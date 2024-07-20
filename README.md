@@ -95,12 +95,12 @@ Exclui todos os registros presentes na tabela Data.
 
 
 ### DB Alvo
-#### 1. Ler dados tabela Signals
+#### 1. Ler dados tabela Signal
 
 ```
-http://localhost:5000/target/signals/read
+http://localhost:5000/target/signal/read
 ```
-Retorna os dados presentes na tabela Signals no DB Alvo.
+Retorna os dados presentes na tabela Signal no DB Alvo.
 
 #### 2. Ler dados tabela Data
 
@@ -109,19 +109,19 @@ http://localhost:5000/target/data/read
 ```
 Retorna os dados presentes na tabela Data no DB Alvo.
 
-#### 3. Excluir todos os dados tabela Signals
+#### 3. Excluir todos os dados tabela Signal
 
 ```
-http://localhost:5000/target/signals/reset
+http://localhost:5000/target/signal/reset
 ```
-Exclui todos os registros presentes na tabela Signals. 
+Exclui todos os registros presentes na tabela Signal no DB Alvo.
 
 #### 4. Excluir todos os dados tabela Data
 
 ```
 http://localhost:5000/target/data/reset
 ```
-Exclui todos os registros presentes na tabela Data. 
+Exclui todos os registros presentes na tabela Data no DB Alvo.
 
 
 ## Estrutura do Projeto
