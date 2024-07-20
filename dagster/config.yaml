@@ -1,0 +1,21 @@
+ops:
+  etl_script:
+    config:
+      api_url: http://localhost:5000/source/data/read
+      start_date: 2024-07-17
+      end_date: 2024-07-18
+      variables:
+        - wind_speed
+        - power
+        - ambient_temperature
+  etl_daily_script:
+    config:
+      api_url: http://localhost:5000/source/data/read
+
+resources:
+  db1:
+    config:
+      database_url: postgresql://admin:admin@localhost:5432/db1
+  db2:
+    config:
+      database_url: postgresql://admin:admin@localhost:5433/db2
