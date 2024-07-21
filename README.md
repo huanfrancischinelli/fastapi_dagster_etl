@@ -56,6 +56,8 @@ http://localhost:5000/source/data/read
 ```
 Retorna os dados presentes na tabela Data no DB Fonte, com base nos parametros de data e metricas necessarias, passadas no parametro `variables`.
 
+Se nenhum parametro de data for informado, todos os dados serão retornados.
+
 Parametros:
   - **start_date:** String em formato `YYYY-MM-DDThh:mm:ss` que indica a data de inicio de busca na base de dados.
   - **end_date:** String em formato `YYYY-MM-DDThh:mm:ss` que indica a data limite de busca na base de dados.
