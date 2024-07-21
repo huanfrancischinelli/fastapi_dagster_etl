@@ -25,13 +25,14 @@ Se a aplicaçao, por exemplo, for executada no dia **`20/07/2024`**, a **`data i
 ### **1.** Clone o projeto
 
 Clone o projeto e navegue para o diretório principal do projeto com o comando: `cd .\fastapi_dagster_etl`
-```
+
+```bash
 git clone https://github.com/huanfrancischinelli/fastapi_dagster_etl.git
 ```
 
 ### **2.** Execute o script Docker Compose
 
-```
+```bash
 docker compose up --build
 ```
 
@@ -43,7 +44,49 @@ docker compose up --build
 
 ## Execução do Script ETL pelo Console
 
-### 1. 
+É altamente recomendável criar um ambiente virtual (venv) para instalar as dependências necessárias. Isso ajuda a manter as dependências organizadas e evita conflitos com outras bibliotecas do sistema.
+
+`Caso não deseje criar um ambiente virtual para a execução do script, os passos 2 e 3 podem ser ignorados.`
+
+#### 1. No console, navegue até o diretório do script
+
+```bash
+cd .\etl\
+```
+
+#### **`Opcional`** 2. Crie o ambiente virtual Python (venv)
+
+```bash
+python -m venv venv
+```
+
+#### **`Opcional`** 3. Ative o ambiente virtual Python (venv)
+
+- **Windows:**
+
+    ```bash
+    venv\Scripts\activate
+    ```
+
+- **macOS e Linux:**
+
+    ```bash
+    source venv/bin/activate
+    ```
+
+#### 4. Instale as dependencias
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+#### 5. Modifique as configurações de execução dentro do Script **`etl_script.py`** conforme necessario.
+
+#### 6. Execute o script.
+
+```bash
+python .\etl_script.py
+```
 
 
 ## Rotas da API
