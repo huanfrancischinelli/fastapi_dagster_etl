@@ -15,14 +15,18 @@ Assim que iniciada, a API **`recriará as duas bases de dados para uma execuçã
 
 Se a aplicaçao, por exemplo, for executada no dia **`20/07/2024`**, a **`data inicial`** dos dados gerados aleatoriamente será **`15/07/2024`** e a **`data limite`** será **`25/07/2024`**.
 
+---
+
 ## Pré-requisitos
 
 - Python 3.11+
 - Docker
 
+---
+
 ## Execução da API, Databases e Dagster
 
-### **1.** Clone o projeto
+#### 1. Clone o projeto
 
 Clone o projeto e navegue para o diretório principal do projeto com o comando: `cd .\fastapi_dagster_etl`
 
@@ -30,17 +34,67 @@ Clone o projeto e navegue para o diretório principal do projeto com o comando: 
 git clone https://github.com/huanfrancischinelli/fastapi_dagster_etl.git
 ```
 
-### **2.** Execute o script Docker Compose
+#### 2. Execute o script Docker Compose
 
 ```bash
 docker compose up --build
 ```
 
 
-## Execução do script ETL no Dagster
+---
 
-### 1. 
+## Execução do Script ETL no Dagster
 
+#### Endereço Dagster
+
+
+Foram criados `2 Assets`, com um `1 Job especifico para cada Asset`, além de `um Resource para cada banco de dados`.
+
+O Job **`etl_daily`** tem como objetivo a execução diaria por meio do Schedule **`etl_daily_schedule`**, tendo parametros fixos para que o Script ETL busque sempre todos os dados referente ao `dia anterior`, compilados com frequencia de `10 minutos` e valores de `média`, `mínima`, `máxima` e `desvio padrão` referente ao `periodo compilado`.
+Os dados serão salvos no banco de dados alvo, na tabela Data.
+
+Já o Job **`etl`** permite a customização da execução através dos parametros:
+  - start_date: Data com formatação `YYYY-MM-DD`, que indica a data de inicio de busca na base de dados.
+  - end_date: Data com formatação `YYYY-MM-DD`, que indica a data limite de busca na base de dados.
+  - variables: Métricas a serem consideradas no processo de ETL. 
+
+### Execução do Job **`etl`**
+#### 1. Acesse o endereço Dagster
+```
+http://localhost:8000
+```
+#### 2. Navegue até **`Jobs`** e acesse o job **`etl`**
+#### 3. Em **`Launchpad`** customize o arquivo de configuração
+```yml
+ops:
+  etl_script:
+    config:
+      api_url: http://api:5000/source/data/read
+      end_date: 2024-07-18
+      start_date: 2024-07-17
+      variables:
+      - wind_speed
+      - power
+      - ambient_temperature
+resources:
+  db1:
+    config:
+      database_url: postgresql://admin:admin@db1/db1
+  db2:
+    config:
+      database_url: postgresql://admin:admin@db2/db2
+```
+#### 4. Execute em **`Launch Run`**
+
+### Schedule do Job **`etl_daily`**
+#### 1. Acesse o endereço Dagster
+```
+http://localhost:8000
+```
+#### 2. Navegue até **`Schedules`** e acesse o schedule **`etl_daily_schedule`**
+#### 3. Ative o Schedule na flag **`Running`**
+
+---
 
 ## Execução do Script ETL pelo Console
 
@@ -88,6 +142,8 @@ python -m pip install -r requirements.txt
 python .\etl_script.py
 ```
 
+
+---
 
 ## Rotas da API
 
@@ -168,8 +224,62 @@ http://localhost:5000/target/data/reset
 ```
 Exclui todos os registros presentes na tabela Data no DB Alvo.
 
+---
 
 ## Estrutura do Projeto
 
-### 1. 
-
+```bash
+.
+├── app
+│   ├── db1
+│   │   ├── models
+│   │   │   └── data.py
+│   │   ├── routes
+│   │   │   └── source_data_routes.py
+│   │   └── schemas
+│   │       └── data.py
+│   ├── db2
+│   │   ├── models
+│   │   │   ├── data.py
+│   │   │   └── signal.py
+│   │   ├── routes
+│   │   │   ├── target_data_routes.py
+│   │   │   └── target_signal_routes.py
+│   │   └── schemas
+│   │       ├── data.py
+│   │       └── signal.py
+│   ├── routes
+│   │   └── main_routes.py
+│   ├── __init__.py
+│   ├── main.py
+│   ├── db.py
+│   ├── scripts.py
+│   ├── Dockerfile.app
+│   └── requirements.txt
+├── dagster
+│   ├── db1
+│   │   └── models
+│   │       └── data.py
+│   ├── db2
+│   │   └── models
+│   │       ├── data.py
+│   │       └── signal.py
+│   ├── resources.py
+│   ├── assets.py
+│   ├── schedules.py
+│   ├── jobs.py
+│   ├── pipeline.py
+│   ├── config.yaml
+│   ├── Dockerfile.dag
+│   └── requirements.txt
+├── etl
+│   ├── models
+│   │   ├── data.py
+│   │   └── signal.py
+│   ├── __init__.py
+│   ├── db.py
+│   ├── etl_script.py
+│   └── requirements.txt
+├── docker-compose.yml
+└── README.md
+```
