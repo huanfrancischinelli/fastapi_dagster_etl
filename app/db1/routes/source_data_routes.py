@@ -11,13 +11,10 @@ source_data_routes = APIRouter()
 
 @source_data_routes.get("/data/read", response_model=List[DataSchema])
 def read_source_data(start_date: Optional[datetime] = None, end_date: Optional[datetime] = None, variables: Optional[List[str]] = Query(None), db: Session = Depends(get_db1)):
-    if not start_date or not end_date:
-        curr_date = datetime.now()
-        start_date = datetime(curr_date.year, curr_date.month, curr_date.day)
-        end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
-    
     try:
-        query = db.query(DataModel).filter(DataModel.timestamp >= start_date, DataModel.timestamp <= end_date)
+        query = db.query(DataModel)
+        if start_date and end_date:
+            query = query.filter(DataModel.timestamp >= start_date, DataModel.timestamp <= end_date)
         if variables:
             column_err = []
             columns = [DataModel.timestamp]
