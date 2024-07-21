@@ -44,7 +44,7 @@ docker compose up --build
 
 ## Execução do Script ETL pelo Console
 
-É altamente recomendável criar um ambiente virtual (venv) para instalar as dependências necessárias. Isso ajuda a manter as dependências organizadas e evita conflitos com outras bibliotecas do sistema.
+É altamente recomendável criar um ambiente virtual `(venv)` para instalar as dependências necessárias. Isso ajuda a manter as dependências organizadas e evita conflitos com outras bibliotecas do sistema.
 
 `Caso não deseje criar um ambiente virtual para a execução do script, os passos 2 e 3 podem ser ignorados.`
 
@@ -54,13 +54,13 @@ docker compose up --build
 cd .\etl\
 ```
 
-#### **`Opcional`** 2. Crie o ambiente virtual Python (venv)
+#### **`Opcional`** 2. Crie o ambiente virtual Python `(venv)`
 
 ```bash
 python -m venv venv
 ```
 
-#### **`Opcional`** 3. Ative o ambiente virtual Python (venv)
+#### **`Opcional`** 3. Ative o ambiente virtual Python `(venv)`
 
 - **Windows:**
 
