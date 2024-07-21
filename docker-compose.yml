@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile.app
     container_name: api
     environment:
+      TZ: America/Sao_Paulo
       DB1_URL: ${DB1_URL}
       DB2_URL: ${DB2_URL}
     ports:
@@ -21,6 +22,7 @@ services:
     image: postgres:13
     container_name: db1
     environment:
+      TZ: America/Sao_Paulo
       POSTGRES_USER: ${DB1_USER}
       POSTGRES_PASSWORD: ${DB1_PASSWORD}
       POSTGRES_DB: ${DB1_DB}
@@ -35,6 +37,7 @@ services:
     image: postgres:13
     container_name: db2
     environment:
+      TZ: America/Sao_Paulo
       POSTGRES_USER: ${DB2_USER}
       POSTGRES_PASSWORD: ${DB2_PASSWORD}
       POSTGRES_DB: ${DB2_DB}
@@ -49,6 +52,8 @@ services:
     build:
       context: ./dagster
       dockerfile: Dockerfile.dag
+    environment:
+      TZ: America/Sao_Paulo
     ports:
       - "8000:3000"
     networks:

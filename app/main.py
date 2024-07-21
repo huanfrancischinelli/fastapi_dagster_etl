@@ -16,7 +16,7 @@ async def lifespan(app: FastAPI):
     Base_db1.metadata.create_all(bind=Engine_db1)
     Base_db2.metadata.create_all(bind=Engine_db2)
     randomize_source_data(
-        start_date=datetime(datetime.now().year, datetime.now().month, datetime.now().day) - timedelta(days=5),
+        start_date=datetime.now() - timedelta(days=5),
         period=10,
         minutes=1
     )

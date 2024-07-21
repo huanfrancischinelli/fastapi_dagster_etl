@@ -10,7 +10,12 @@ import random
 source_data_routes = APIRouter()
 
 @source_data_routes.get("/data/read", response_model=List[DataSchema])
-def read_source_data(start_date: datetime, end_date: datetime, variables: Optional[List[str]] = Query(None), db: Session = Depends(get_db1)):
+def read_source_data(start_date: Optional[datetime] = None, end_date: Optional[datetime] = None, variables: Optional[List[str]] = Query(None), db: Session = Depends(get_db1)):
+    if not start_date or not end_date:
+        curr_date = datetime.now()
+        start_date = datetime(curr_date.year, curr_date.month, curr_date.day)
+        end_date = start_date + timedelta(days=1) - timedelta(seconds=1)
+    
     try:
         query = db.query(DataModel).filter(DataModel.timestamp >= start_date, DataModel.timestamp <= end_date)
         if variables:
@@ -55,6 +60,8 @@ def random_source_data(start_date: datetime, end_date: Optional[datetime] = None
             end_date = start_date + timedelta(days=period)
 
         num_created = 0
+        start_date = datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
+        end_date = datetime(end_date.year, end_date.month, end_date.day, 23, 59, 59)
         current_time = start_date
         while current_time <= end_date:
             data_entry = DataModel(

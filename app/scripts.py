@@ -14,6 +14,8 @@ def randomize_source_data(start_date: datetime, end_date: Optional[datetime] = N
         end_date = start_date + timedelta(days=period)
     if end_date <= start_date:
         raise Exception("Invalid date to randomize data.")
+    start_date = datetime(start_date.year, start_date.month, start_date.day, 0, 0, 0)
+    end_date = datetime(end_date.year, end_date.month, end_date.day, 23, 59, 59)
     print("Generating random source database with these parameters:")
     print(f"     - start_date: {start_date}")
     print(f"     - end_date: {end_date}")
